@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="InsaneGame: las mejores ofertas de videojuegos de Steam, actualizadas con datos de CheapShark.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#e9e7ff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d1230">
+  <title>InsaneGame | Ofertas de videojuegos de Steam</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <script src="js/api.js" defer></script>
+  <script src="js/validacion.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="saltar-contenido" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="sitio-header">
+    <div class="contenedor header-contenido">
+      <a class="marca" href="#inicio" aria-label="InsaneGame, ir al inicio">
+        <span class="marca__icono" aria-hidden="true">IG</span>
+        <span class="marca__texto">Insane<span>Game</span></span>
+      </a>
+
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <a href="#inicio" data-ruta="inicio" aria-current="page">Inicio</a>
+        <a href="#ofertas" data-ruta="ofertas">Ofertas</a>
+        <a href="#registro" data-ruta="registro">Crear cuenta</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" tabindex="-1">
+    <noscript>
+      <div class="contenedor aviso-noscript">
+        <strong>JavaScript está desactivado.</strong> Actívalo para cargar las ofertas y usar el formulario de registro.
+      </div>
+    </noscript>
+
+    <!-- Pantalla de inicio -->
+    <section class="pantalla" id="pantalla-inicio" data-pantalla="inicio" aria-labelledby="titulo-inicio">
+      <div class="contenedor hero">
+        <div class="hero__texto">
+          <p class="etiqueta-seccion">Ofertas reales · Steam · Sin vueltas</p>
+          <h1 id="titulo-inicio" tabindex="-1">Tu próximo juego está en <span class="texto-acento">oferta</span>.</h1>
+          <p class="hero__descripcion">
+            InsaneGame rastrea los descuentos de Steam para que encuentres tu próxima aventura sin pagar de más.
+            Sin registros para mirar y sin precios escondidos.
+          </p>
+          <div class="grupo-botones">
+            <a class="boton boton--primario" href="#ofertas">
+              Ver ofertas
+              <span class="boton__flecha" aria-hidden="true">→</span>
+            </a>
+            <a class="boton boton--secundario" href="#registro">Crear cuenta</a>
+          </div>
+          <p class="nota-hero">Precios en USD · Datos actualizados por CheapShark</p>
+        </div>
+
+        <div class="hero__visual" aria-hidden="true">
+          <div class="panel-arcade">
+            <div class="panel-arcade__barra">
+              <span class="panel-arcade__led"></span>
+              <span>INSANE//GAME</span>
+              <span>EN LÍNEA</span>
+            </div>
+            <div class="panel-arcade__pantalla">
+              <p class="panel-arcade__etiqueta">NIVEL DE AHORRO</p>
+              <p class="panel-arcade__titulo">MODO<br><span>CAZA</span></p>
+              <div class="panel-arcade__pixeles">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <p class="panel-arcade__pie">STEAM · USD · SIN REGISTRO</p>
+            </div>
+          </div>
+          <span class="pegatina pegatina--uno">4 MEJORES</span>
+          <span class="pegatina pegatina--dos">SIN CLAVE</span>
+        </div>
+      </div>
+
+      <div class="contenedor seccion-destacados">
+        <div class="encabezado-seccion">
+          <div>
+            <p class="etiqueta-seccion">Selección InsaneGame</p>
+            <h2>Las 4 mejores ofertas del momento</h2>
+          </div>
+          <a class="enlace-texto" href="#ofertas">Ver todas <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="estado" id="estado-inicio" role="status" aria-live="polite" aria-atomic="true">
+          Cargando las mejores ofertas…
+        </div>
+        <div class="rejilla-ofertas" id="grid-inicio" aria-busy="true"></div>
+      </div>
+    </section>
+
+    <!-- Pantalla de ofertas -->
+    <section class="pantalla" id="pantalla-ofertas" data-pantalla="ofertas" aria-labelledby="titulo-ofertas" hidden>
+      <div class="contenedor">
+        <div class="pagina-encabezado">
+          <p class="etiqueta-seccion">Catálogo en vivo</p>
+          <h1 id="titulo-ofertas" tabindex="-1">Ofertas de Steam</h1>
+          <p>
+            Busca, filtra y ordena los descuentos reales de CheapShark.
+            Los precios están en dólares estadounidenses.
+          </p>
+        </div>
+
+        <form class="panel-filtros" id="filtros-ofertas" role="search" aria-label="Filtrar ofertas" novalidate>
+          <div class="campo-filtro campo-filtro--busqueda">
+            <label for="busqueda">Buscar por título</label>
+            <div class="buscador">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="m20 20-3.4-3.4"></path>
+              </svg>
+              <input type="search" id="busqueda" name="busqueda" placeholder="Ej. Batman, Hades, Portal…" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="campo-filtro">
+            <label for="orden">Ordenar por</label>
+            <select id="orden" name="orden">
+              <option value="Deal Rating">Mejor oferta</option>
+              <option value="Savings">Mayor descuento</option>
+              <option value="Price">Precio</option>
+              <option value="Metacritic">Metacritic</option>
+              <option value="Reviews">Reseñas de Steam</option>
+              <option value="Title">Título (A-Z)</option>
+            </select>
+          </div>
+
+          <div class="campo-filtro">
+            <label for="precio-maximo">Precio máximo</label>
+            <select id="precio-maximo" name="precio-maximo">
+              <option value="">Sin límite</option>
+              <option value="5">Hasta 5 USD</option>
+              <option value="10">Hasta 10 USD</option>
+              <option value="20">Hasta 20 USD</option>
+              <option value="40">Hasta 40 USD</option>
+            </select>
+          </div>
+        </form>
+
+        <div class="resultados">
+          <h2 class="sr-only">Resultados de ofertas</h2>
+          <div class="estado" id="estado-ofertas" role="status" aria-live="polite" aria-atomic="true"></div>
+          <div class="rejilla-ofertas" id="grid-ofertas" aria-busy="false"></div>
+          <div class="paginacion">
+            <button class="boton boton--azul" id="btn-cargar-mas" type="button" hidden>
+              Cargar más ofertas
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pantalla de registro -->
+    <section class="pantalla" id="pantalla-registro" data-pantalla="registro" aria-labelledby="titulo-registro" hidden>
+      <div class="contenedor">
+        <div class="pagina-encabezado">
+          <p class="etiqueta-seccion">Nuevo jugador</p>
+          <h1 id="titulo-registro" tabindex="-1">Crea tu cuenta</h1>
+          <p>Prepara tu perfil de jugador y entra en modo caza de ofertas.</p>
+        </div>
+
+        <div class="registro-layout">
+          <aside class="registro-info" aria-label="Información del registro">
+            <p class="etiqueta-seccion">Pase de jugador</p>
+            <h2>Tu identidad de jugador, lista para la próxima oferta.</h2>
+            <p>
+              Este formulario es una demostración de validación en tiempo real.
+              No se envía ni se almacena ningún dato.
+            </p>
+            <ul class="lista-ventajas">
+              <li>Validación al instante</li>
+              <li>Contraseña con medidor de seguridad</li>
+              <li>Perfil personalizado</li>
+            </ul>
+            <div class="pixel-decoracion" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </aside>
+
+          <form class="formulario" id="form-registro" novalidate>
+            <h2 class="sr-only">Datos del jugador</h2>
+            <div class="formulario__grid">
+              <div class="campo campo--ancho" data-campo="nombre">
+                <label for="nombre">Nombre completo</label>
+                <input class="campo__control" type="text" id="nombre" name="nombre" autocomplete="name" placeholder="María López" aria-describedby="error-nombre">
+                <p class="campo__error" id="error-nombre" aria-live="polite"></p>
+              </div>
+
+              <div class="campo campo--ancho" data-campo="correo">
+                <label for="correo">Correo electrónico</label>
+                <input class="campo__control" type="email" id="correo" name="correo" autocomplete="email" placeholder="tu@correo.com" aria-describedby="error-correo">
+                <p class="campo__error" id="error-correo" aria-live="polite"></p>
+              </div>
+
+              <div class="campo" data-campo="jugador">
+                <label for="jugador">Nombre de jugador</label>
+                <input class="campo__control" type="text" id="jugador" name="jugador" autocomplete="username" maxlength="16" placeholder="pixel_hunter" aria-describedby="error-jugador">
+                <p class="campo__error" id="error-jugador" aria-live="polite"></p>
+              </div>
+
+              <div class="campo" data-campo="plataforma">
+                <label for="plataforma">Plataforma favorita</label>
+                <select class="campo__control" id="plataforma" name="plataforma" aria-describedby="error-plataforma">
+                  <option value="">Selecciona una plataforma</option>
+                  <option value="PC">PC</option>
+                  <option value="PlayStation">PlayStation</option>
+                  <option value="Xbox">Xbox</option>
+                  <option value="Nintendo">Nintendo</option>
+                </select>
+                <p class="campo__error" id="error-plataforma" aria-live="polite"></p>
+              </div>
+
+              <div class="campo" data-campo="contrasena">
+                <label for="contrasena">Contraseña</label>
+                <input class="campo__control" type="password" id="contrasena" name="contrasena" autocomplete="new-password" placeholder="Mínimo 8 caracteres" aria-describedby="ayuda-contrasena error-contrasena">
+                <div class="medidor" id="medidor-contrasena" role="progressbar" aria-label="Seguridad de la contraseña" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" aria-valuetext="Sin contraseña">
+                  <span class="medidor__barra"></span>
+                </div>
+                <p class="medidor-texto" id="texto-fuerza" aria-live="polite">Seguridad: —</p>
+                <p class="campo__ayuda" id="ayuda-contrasena">Mínimo 8 caracteres, una mayúscula y un número.</p>
+                <p class="campo__error" id="error-contrasena" aria-live="polite"></p>
+              </div>
+
+              <div class="campo" data-campo="confirmar">
+                <label for="confirmar">Confirmar contraseña</label>
+                <input class="campo__control" type="password" id="confirmar" name="confirmar" autocomplete="new-password" placeholder="Repite tu contraseña" aria-describedby="error-confirmar">
+                <p class="campo__error" id="error-confirmar" aria-live="polite"></p>
+              </div>
+
+              <div class="campo campo--ancho campo--terminos" data-campo="terminos">
+                <label class="terminos" for="terminos">
+                  <input type="checkbox" id="terminos" name="terminos" aria-describedby="error-terminos">
+                  <span>Acepto los términos del servicio y la política de privacidad.</span>
+                </label>
+                <p class="campo__error" id="error-terminos" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <button class="boton boton--primario boton--ancho" type="submit">Crear mi cuenta</button>
+          </form>
+
+          <div class="registro-exito" id="registro-exito" role="status" aria-live="polite" tabindex="-1" hidden>
+            <div class="exito-icono" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="m5 12 4.5 4.5L19 7"></path>
+              </svg>
+            </div>
+            <p class="etiqueta-seccion">Cuenta lista</p>
+            <h2>¡Bienvenido/a, <span id="nombre-bienvenida"></span>!</h2>
+            <p>Tu perfil de jugador está preparado. Ahora toca encontrar la próxima aventura.</p>
+            <a class="boton boton--azul" href="#ofertas">Explorar ofertas</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-sitio">
+    <div class="contenedor pie-contenido">
+      <div>
+        <a class="marca marca--pie" href="#inicio">
+          <span class="marca__icono" aria-hidden="true">IG</span>
+          <span class="marca__texto">Insane<span>Game</span></span>
+        </a>
+        <p>Comparador demo de ofertas de Steam.</p>
+      </div>
+      <p>
+        Datos por <a href="https://apidocs.cheapshark.com/" target="_blank" rel="noopener noreferrer">CheapShark</a>.
+        Precios en USD. No afiliado a Valve.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
